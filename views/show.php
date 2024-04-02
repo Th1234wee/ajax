@@ -25,18 +25,30 @@
                 <th>Profile</th>
                 <th>Action</th>
             </tr>
-            <tr>
-                <th>1001</th>
-                <th>Sok</th>
-                <th>Male</th>
-                <th>
-                    <img src="../image/avatar-icon.png" alt="">
-                </th>
-                <th>
-                    <button class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
-                </th>
-            </tr>
+            <?php 
+                $connection  =   new mysqli('localhost','root','','php12-1',3308);
+                $sql    =  "SELECT * FROM `user` WHERE 1 ORDER BY `id` DESC";
+
+                $result = $connection -> query($sql);
+
+                while($row  =  mysqli_fetch_assoc($result)){
+                    echo '
+                        <tr>
+                            <th>'.$row['id'].'</th>
+                            <th>'.$row['name'].'</th>
+                            <th>'.$row['gender'].'</th>
+                            <th>
+                                <img src="../image/'.$row['image'].'">
+                            </th>
+                            <th>
+                                <button class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                            </th>
+                        </tr>
+    
+                    ';
+                }
+            ?>
         </table>
     </div>
     <?php 
@@ -56,7 +68,7 @@
 
             var imageFile   = $('#file')[0].files;
             // console.log(imageFile);
-            form_data.append('_file',imageFile[0]);
+            form_data.append('_file',imageFile[0]); //_file = image-name
 
             $.ajax({
                method : "post",
@@ -88,6 +100,9 @@
                 success : function(response){
                     if(response == "Success"){
                         alert("Success");
+                    }
+                    else{
+                        alert("Error");
                     }
                 }
             })
