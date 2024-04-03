@@ -34,16 +34,17 @@
                 while($row  =  mysqli_fetch_assoc($result)){
                     echo '
                         <tr>
-                            <th>'.$row['id'].'</th>
-                            <th>'.$row['name'].'</th>
-                            <th>'.$row['gender'].'</th>
-                            <th>
-                                <img src="../image/'.$row['image'].'">
-                            </th>
-                            <th>
-                                <button class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <td>'.$row['id'].'</td>
+                            <td>'.$row['name'].'</td>
+                            <td>'.$row['gender'].'</td>
+                            <td>
+                                <img src="../image/'.$row['image'].'" alt="'.$row['image'].'">
+                            </td>
+                            <td>
+                                <button id="open_edit" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
-                            </th>
+                                
+                            </td>
                         </tr>
     
                     ';
@@ -106,6 +107,55 @@
                     }
                 }
             })
+        })
+
+        $('#open_add').on('click',function(){
+            $('#accept_edit').hide();
+            $('#accept_add').show();
+        })
+        $('body').on('click','#open_edit',function(){
+            $('#accept_edit').show();
+            $('#accept_add').hide();
+
+            var id      = $(this).parents('tr').find('td').eq(0).text();
+            var name    = $(this).parents('tr').find('td').eq(1).text();
+            var gender  = $(this).parents('tr').find('td').eq(2).text();
+            var image   = $(this).parents('tr').find('td:eq(3) img').attr('alt');
+            
+            $('#name').val(name);
+            $('#gender').val(gender);
+            $('#id').val(id);
+            $('#img').val(image);
+            $('#image-choose').attr('src','../image/'+image);
+
+            $('#accept_edit').on('click',function(){
+                name   = $('#name').val();
+                gender = $('#gender').val();
+                id     = $('#id').val();
+                image  = $('#img').val();
+                $('#image-choose').attr('src','../image/'+image);
+
+                $.ajax({
+                    method : 'post',
+                    url    : 'update.php',
+                    cache : false,
+                    data : {
+                        up_id     : id,
+                        up_name   : name,
+                        up_gender : gender , 
+                        up_image  : image
+                    },
+                    success : function(response){
+                        if(response == "OK"){
+                            alert("OK");
+                        }
+                        else{
+                            alert("Error");
+                        }
+                    }
+                })
+            })
+            
         })
     })
 </script>

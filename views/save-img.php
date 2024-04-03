@@ -5,8 +5,3 @@
     move_uploaded_file($_FILES['_file']['tmp_name'],$path);
     echo $thumbnail;
 
-
-
-    
-
-?>

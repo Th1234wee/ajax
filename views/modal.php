@@ -8,6 +8,7 @@
       </div>
       <div class="modal-body">
         <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="" id="id">
             <label for="">Name</label>
             <input type="text" name="_name" id="name" class="form-control">
             <label for="">Gender</label>
@@ -22,6 +23,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                 <button id="accept_add" name="accept_add" type="submit" class="btn btn-primary">Confirm Add</button>
+                <button id="accept_edit" name="accept_edit" class="btn btn-warning">Edit</button>
             </div>
         </form>
       </div>
